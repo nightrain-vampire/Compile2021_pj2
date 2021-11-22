@@ -49,25 +49,36 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    STRING = 258,
-    PROGRAM = 259,
-    IS = 260,
-    BEGIN = 261,
-    END = 262,
-    VAR = 263,
-    WRITE = 264,
-    SEMI = 265,
-    COLON = 266,
-    COMMA = 267,
-    INITIAL = 268,
-    Lbracket = 269,
-    Rbracket = 270,
-    INTEGER = 271,
-    REAL = 272,
+    INTEGER = 258,
+    FLOAT = 259,
+    STRING = 260,
+    PROGRAM = 261,
+    IS = 262,
+    BEGIN_1 = 263,
+    VAR = 264,
+    END = 265,
+    WRITE = 266,
+    SEMI = 267,
+    COLON = 268,
+    COMMA = 269,
+    ASSIGNOP = 270,
+    Lbracket = 271,
+    Rbracket = 272,
     ID = 273,
     TYPE = 274,
-    T_EOF = 275,
-    UTSTRING = 276
+    ADD = 275,
+    MINUS = 276,
+    STAR = 277,
+    DIVISON = 278,
+    REAL = 279,
+    DO = 280,
+    BY = 281,
+    ARRAY = 282,
+    AND = 283,
+    ELSE = 284,
+    ELSEIF = 285,
+    DIV = 286,
+    EOL = 287
   };
 #endif
 
@@ -75,14 +86,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 11 "demo.y"
+#line 8 "demo.y"
 
-    double floatval;
-    int intval;
-    char *strval;
-    int subtok;
+struct ast* a;
+double d;
 
-#line 86 "yacc.h"
+#line 95 "yacc.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -1,108 +1,66 @@
 %{
-#include <iostream>
-using namespace std;
-
+#include<unistd.h>
+#include<stdio.h>   
+#include "gramtree.h"
 #include "lex.c"
-void yyerror(const char* msg) {
-  cerr << msg << endl;
-}
 %}
 
-%union {
-    double floatval;
-    int intval;
-    char *strval;
-    int subtok;
+%union{
+struct ast* a;
+double d;
 }
-%token <strval> STRING PROGRAM IS BEGIN END VAR WRITE SEMI COLON COMMA INITIAL Lbracket Rbracket INTEGER REAL ID TYPE T_EOF UTSTRING
+%token <a> INTEGER FLOAT STRING
+%token <a> PROGRAM IS BEGIN_1 VAR END WRITE SEMI COLON COMMA ASSIGNOP Lbracket Rbracket ID TYPE ADD MINUS STAR DIVISON REAL DO BY ARRAY AND ELSE ELSEIF DIV
+%token <a> EOL
+%type <a> body
+%type <a> declaration
+%type <a> var-decl
+%type <a> statement
+%type <a> ID-closure
+%type <a> write-params
+%type <a> write-expr
+%type <a> write-expr-closure
+%type <a> unary-op
+%type <a> binary-op
+%type <a> expression
 
-// %token <strval> STRING
-// %token <strval> PROGRAM
-// %token <strval> IS
-// %token <strval> BEGIN
-// %token <strval> END
-// %token <strval> VAR
-// %token <strval> WRITE
-// %token <strval> SEMI
-// %token <strval> COLON 
-// %token <strval> COMMA
-// %token <strval> INITIAL
-// %token <strval> Lbracket
-// %token <strval> Rbracket
-// %token <int> INTEGER
-// %token <floatval> REAL
-// %token <strval> ID
-// %token <strval> TYPE
-// %token <strval> T_EOF
-// %token <strval> UTSTRING
-
-
-%type <strval> root
-%type <strval> body
-%type <strval> declaration
-%type <strval> type-decl
-%type <strval> var-decl
-%type <strval> procedure-decl
-%type <strval> formal-params
-%type <strval> fp-section
-%type <strval> statement
-%type <strval> ID-closure
-%type <strval> write-params
-%type <strval> write-expr
-%type <strval> write-expr-closure
-%type <strval> unary-op
-%type <strval> binary-op
-%type <strval> expression
+%type <a> root
 
 %start root
 
-
-// %%
-// calc:
-//   | calc exp EOL { cout << "= " << $2 << endl; }
-//   ;
-// exp: factor
-//   | exp ADD factor { $$ = $1 + $3; }
-//   | exp SUB factor { $$ = $1 - $3; }
-//   ;
-// factor: term
-//   | factor MUL term { $$ = $1 * $3; }
-//   | factor DIV term { $$ = $1 / $3; }
-//   ;
-// term: NUMBER
-//   | OP exp CP { $$ = $2; }
-//   ;
-// %%
-
 %%
 root:
-  | PROGRAM IS body SEMI { cout<< "PROGRAM IS\n\t" << $3 << "\n;" << endl;}
+  | PROGRAM IS SEMI {$$=newast("root",3,$1,$2,$3);printf("打印syntax tree:\n");eval($$,0);printf("syntax tree打印完毕!\n\n");} 
+  | PROGRAM IS body SEMI{$$=newast("root",4,$1,$2,$3,$4);printf("打印syntax tree:\n");eval($$,0);printf("syntax tree打印完毕!\n\n");}
   ;
 body: 
-  | declaration BEGIN statement END {$$ = $1 + "BEGIN" + $3 + "END";}
+  | declaration BEGIN_1 statement END {$$=newast("body",4,$1,$2,$3,$4);}
   ;
-declaration: 
-  | VAR var-decl SEMI {$$ = "VAR" + $2 + ";";}
+declaration: VAR var-decl SEMI {$$=newast("declaration",3,$1,$2,$3);}
+  | VAR var-decl SEMI declaration {$$=newast("declaration",4,$1,$2,$3,$4);}
   ;
-var-decl:
-  | ID ID-closure COLON TYPE INITIAL expression SEMI {$$ = $1 + $2 + $3 + $4 + $5 + $6 + ";";}
+var-decl: ID COLON TYPE ASSIGNOP expression SEMI {$$=newast("var-decl",6,$1,$2,$3,$4,$5,$6);}
+  | ID ID-closure COLON TYPE ASSIGNOP expression SEMI {$$=newast("var-decl",7,$1,$2,$3,$4,$5,$6,$7);}
   ;
 ID-closure: 
-  | COMMA ID ID-closure {$$ = $1 + $2 + $3;}
+  | COMMA ID ID-closure {$$=newast("ID-closure",3,$1,$2,$3);}
   ;
-expression: unary-op expression {$$ = $1 + $2;}
-  | expression binary-op expression {$$ = $1 + $2 + $3;}
+expression: INTEGER {$$=newast("integer", 1, $1);} 
+  | FLOAT {$$=newast("real", 1, $1);}
+  | ID {$$=newast("ID", 1, $1);}
+  | unary-op expression {$$=newast("expression",2,$1,$2);}
+  | expression binary-op expression {$$=newast("expression",3,$1,$2,$3);}
   ;
-unary-op: "+" | "-" ;
-binary-op: "+" | "-" | "*" | "/" ;
-statement: WRITE write-params SEMI {$$ = "WRITE" + $2 + ";";};
-write-params: Lbracket write-expr write-expr-closure Rbracket {$$ = "(" + write-expr + $3 + ")";}
-  | Lbracket Rbracket {$$ = "()";}
+unary-op: ADD | MINUS {$$=newast("unary-op",1,$1);};
+binary-op: ADD | MINUS | STAR | DIVISON {$$=newast("binary-op",1,$1);};
+statement: WRITE write-params SEMI {$$=newast("statement",3,$1,$2,$3);};
+write-params: Lbracket write-expr write-expr-closure Rbracket {$$=newast("write-params",4,$1,$2,$3,$4);}
+  | Lbracket Rbracket {$$=newast("write-params",2,$1,$2);}
   ;
-write-expr: STRING 
-  | expression
+write-expr: STRING {$$=newast("write-expr",1,$1);}
+  | expression {$$=newast("write-expr",1,$1);}
   ;
 write-expr-closure: 
-  | COMMA write-expr write-expr-closure
+  | COMMA write-expr write-expr-closure {$$=newast("write-expr-closure",3,$1,$2,$3);}
   ;
 %%
