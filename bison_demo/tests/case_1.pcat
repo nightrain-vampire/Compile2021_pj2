@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 PROGRAM IS
     VAR i, j : INTEGER := 1; 
     VAR x : REAL := 2.0;
@@ -6,3 +7,6 @@ BEGIN
     WRITE ("i = ", i, ", j = ", j);
     WRITE ("x = ", x, ", y = ", y);
 END;
+=======
+PROGRAM
+>>>>>>> feat: first version gramtree

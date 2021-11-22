@@ -76,7 +76,6 @@ void eval(struct ast *a,int level)//先序遍历抽象语法树
         eval(a->r,level);//遍历右子树
     }
 }
-
 void yyerror(char*s,...) //变长参数错误处理函数
 {
     va_list ap;
