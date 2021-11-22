@@ -1,5 +1,4 @@
     VAR i, j : INTEGER := 1;
-    VAR i, j : INTEGER := 1;
 BEGIN 
     WRITE ("x = ", x, ", y = ", y);
 END
