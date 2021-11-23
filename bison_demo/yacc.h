@@ -79,10 +79,35 @@ extern int yydebug;
     ELSEIF = 285,
     DIV = 286,
     READ = 287,
-    LSbracket = 288,
-    RSbracket = 289,
-    SPOT = 290,
-    EOL = 291
+    TYPENAME = 288,
+    LSbracket = 289,
+    RSbracket = 290,
+    SPOT = 291,
+    OF = 292,
+    PROCEDURE = 293,
+    NOT = 294,
+    MOD = 295,
+    OR = 296,
+    RECORD = 297,
+    BIGGER = 298,
+    SMALLER = 299,
+    EQUAL = 300,
+    NSMALLER = 301,
+    NBIGGER = 302,
+    SQUARE = 303,
+    Llimit = 304,
+    Rlimit = 305,
+    LHbracket = 306,
+    RHbracket = 307,
+    RETURN = 308,
+    EXIT = 309,
+    FOR = 310,
+    LOOP = 311,
+    WHILE = 312,
+    IF = 313,
+    THEN = 314,
+    TO = 315,
+    EOL = 316
   };
 #endif
 
@@ -95,7 +120,7 @@ union YYSTYPE
 struct ast* a;
 double d;
 
-#line 99 "yacc.h"
+#line 124 "yacc.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
