@@ -35,9 +35,11 @@ double d;
  root: {$$=newast("root",0,-1);}
   | PROGRAM IS body SEMI{$$=newast("root",4,$1,$2,$3,$4);printf("打印syntax tree:\n");eval($$,0);printf("syntax tree打印完毕!\n\n");}
   ;
+
 body: {$$=newast("body",0,-1);}
   | declaration BEGIN_1 statement END {$$=newast("body",4,$1,$2,$3,$4);}
   ;
+
 declaration: {$$=newast("declaration",0,-1);}
   | VAR var-decl SEMI declaration {$$=newast("declaration",4,$1,$2,$3,$4);}
   | var-decl SEMI declaration {$$=newast("declaration",3,$1,$2,$3);}
@@ -81,6 +83,7 @@ write-params: Lbracket write-expr write-expr-closure Rbracket {$$=newast("write-
 write-expr: STRING {$$=newast("write-expr",1,$1);}
   | expression {$$=newast("write-expr",1,$1);}
   ;
+
 write-expr-closure: {$$=newast("write-expr-closure",0,-1);}
   | COMMA write-expr write-expr-closure {$$=newast("write-expr-closure",3,$1,$2,$3);}
   ;

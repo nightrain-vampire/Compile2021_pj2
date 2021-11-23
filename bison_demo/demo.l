@@ -80,7 +80,8 @@ UN_STRING       \"[^\"^\n]*\n
 {ELSEIF}                  {yylval.a=newast("ELSEIF",0,yylineno, cols); cols += yyleng; return ELSEIF;}
 {VAR}                     {yylval.a=newast("VAR",0,yylineno, cols); cols += yyleng; return VAR;}
 {END}                     {yylval.a=newast("END",0,yylineno, cols); cols += yyleng; return END;}
-{WRITE}                   {yylval.a=newast("WRITE",0,yylineno, cols); cols += yyleng; return WRITE;} 
+{WRITE}                   {yylval.a=newast("WRITE",0,yylineno, cols); cols += yyleng; return WRITE;}
+{READ}                     {yylval.a=newast("READ",0,yylineno, cols); cols += yyleng; return READ;}
 {STRING}                  {yylval.a=newast("STRING",0,yylineno, cols); cols += yyleng; return STRING;}
 {INTEGER}			      {yylval.a=newast("INTEGER",0,yylineno, cols); cols += yyleng; return INTEGER;}
 {FLOAT}			      {yylval.a=newast("FLOAT",0,yylineno, cols); cols += yyleng; return FLOAT;}
