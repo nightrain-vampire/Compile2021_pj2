@@ -32,6 +32,7 @@ struct ast *newast(char* name,int num,...)//抽象语法树建立
         temp=va_arg(valist, struct ast*);//取变长参数列表中的第一个结点设为a的左孩子
         a->l=temp;
         a->line=temp->line;//父节点a的行号等于左孩子的行号
+        a->cols=temp->cols;//父节点a的列好等于左孩子的列号
 
         if(num>=2) //可以规约到a的语法单元>=2
         {
@@ -44,8 +45,10 @@ struct ast *newast(char* name,int num,...)//抽象语法树建立
     }
     else //num==0为终结符或产生空的语法单元：第1个变长参数表示行号，产生空的语法单元行号为-1。
     {
-        int t=va_arg(valist, int); //取第1个变长参数
+        int t=va_arg(valist, int); //取第1个变长参数,行号
+        int c=va_arg(valist, int); //取第2个变长参数，列号
         a->line=t;
+        a->cols=c;
         if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))//"ID,TYPE,INTEGER，借助union保存yytext的值
         {char*t;t=(char*)malloc(sizeof(char* )*40);strcpy(t,yytext);a->idtype=t;}
         else if(!strcmp(a->name,"INTEGER")) {a->intgr=atoi(yytext);}
@@ -65,7 +68,7 @@ void eval(struct ast *a,int level)//先序遍历抽象语法树
             if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))printf(":%s ",a->idtype);
             else if(!strcmp(a->name,"INTEGER"))printf(":%d",a->intgr);
             else
-                printf("(%d)",a->line);
+                printf("(%d, %d)",a->line, a->cols);
         }
         printf("\n");
 
@@ -73,6 +76,7 @@ void eval(struct ast *a,int level)//先序遍历抽象语法树
         eval(a->r,level);//遍历右子树
     }
 }
+
 void yyerror(char*s,...) //变长参数错误处理函数
 {
     va_list ap;

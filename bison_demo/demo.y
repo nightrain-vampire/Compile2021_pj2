@@ -27,22 +27,20 @@ double d;
 %type <a> root
 
 
-// %%
-//  root:
-//   | PROGRAM IS SEMI {$$=newast("root",3,$1,$2,$3);printf("打印syntax tree:\n");eval($$,0);printf("syntax tree打印完毕!\n\n");} 
-//   | PROGRAM IS body SEMI{$$=newast("root",4,$1,$2,$3,$4);printf("打印syntax tree:\n");eval($$,0);printf("syntax tree打印完毕!\n\n");}
-//   ;
 %%
-body: 
-  | declaration BEGIN_1 statement END {$$=newast("body",4,$1,$2,$3,$4); printf("打印syntax tree:\n");eval($$,0);printf("syntax tree打印完毕!\n\n");}
+ root: {$$=newast("root",0,-1);}
+  | PROGRAM IS body SEMI{$$=newast("root",4,$1,$2,$3,$4);printf("打印syntax tree:\n");eval($$,0);printf("syntax tree打印完毕!\n\n");}
   ;
-declaration:
+body: {$$=newast("body",0,-1);}
+  | declaration BEGIN_1 statement END {$$=newast("body",4,$1,$2,$3,$4);}
+  ;
+declaration: {$$=newast("declaration",0,-1);}
   | VAR var-decl SEMI declaration {$$=newast("declaration",4,$1,$2,$3,$4);}
   ;
-var-decl: ID COLON TYPE ASSIGNOP expression SEMI {$$=newast("var-decl",6,$1,$2,$3,$4,$5,$6);}
-  | ID ID-closure COLON TYPE ASSIGNOP expression SEMI {$$=newast("var-decl",7,$1,$2,$3,$4,$5,$6,$7);}
+var-decl: {$$=newast("var-decl",0,-1);}
+  | ID ID-closure COLON TYPE ASSIGNOP expression {$$=newast("var-decl",6,$1,$2,$3,$4,$5,$6);}
   ;
-ID-closure: COMMA ID {$$=newast("ID-closure",2,$1,$2);}
+ID-closure: {$$=newast("ID-closure",0,-1);}
   | COMMA ID ID-closure {$$=newast("ID-closure",3,$1,$2,$3);}
   ;
 expression: INTEGER {$$=newast("integer", 1, $1);} 
@@ -53,14 +51,16 @@ expression: INTEGER {$$=newast("integer", 1, $1);}
   ;
 unary-op: ADD | MINUS {$$=newast("unary-op",1,$1);};
 binary-op: ADD | MINUS | STAR | DIVISON {$$=newast("binary-op",1,$1);};
-statement: WRITE write-params SEMI {$$=newast("statement",3,$1,$2,$3);};
+statement: {$$=newast("statement",0,-1);}
+  | WRITE write-params SEMI statement {$$=newast("statement",4,$1,$2,$3,$4);}
+  ;
 write-params: Lbracket write-expr write-expr-closure Rbracket {$$=newast("write-params",4,$1,$2,$3,$4);}
   | Lbracket Rbracket {$$=newast("write-params",2,$1,$2);}
   ;
 write-expr: STRING {$$=newast("write-expr",1,$1);}
   | expression {$$=newast("write-expr",1,$1);}
   ;
-write-expr-closure: 
+write-expr-closure: {$$=newast("write-expr-closure",0,-1);}
   | COMMA write-expr write-expr-closure {$$=newast("write-expr-closure",3,$1,$2,$3);}
   ;
 %%
