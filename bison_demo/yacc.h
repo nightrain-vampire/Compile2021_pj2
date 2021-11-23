@@ -78,7 +78,11 @@ extern int yydebug;
     ELSE = 284,
     ELSEIF = 285,
     DIV = 286,
-    EOL = 287
+    READ = 287,
+    LSbracket = 288,
+    RSbracket = 289,
+    SPOT = 290,
+    EOL = 291
   };
 #endif
 
@@ -91,7 +95,7 @@ union YYSTYPE
 struct ast* a;
 double d;
 
-#line 95 "yacc.h"
+#line 99 "yacc.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

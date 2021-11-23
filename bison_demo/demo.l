@@ -21,17 +21,21 @@ VAR VAR
 BEGIN_1 BEGIN
 END END
 WRITE WRITE 
+READ READ
 
 SEMI ;
 COMMA ,
 COLON :
-ASSIGNOP =
+ASSIGNOP :=
 STAR \*
 DIVISON \/
 ADD \+
 MINUS -
 Lbracket \(
 Rbracket \)
+LSbracket \[
+RSbracket \]
+SPOT \.
 
 INTEGER [1-9]+[0-9]*|0 
 FLOAT   [0-9]+\.[0-9]* 
@@ -44,9 +48,11 @@ NEW_LINE        [\n]
 LETTER		    [A-Z]|[a-z]
 DIGIT           [0-9]
 STRING          \"[^\"^\n]*\"
-TYPE            INTEGER|REAL
+TYPE            (INTEGER)|(REAL)
 ID		        {LETTER}+({LETTER}|{DIGIT})*
 UN_STRING       \"[^\"^\n]*\n
+
+%x COMMENT
 
 %%
 {WS}                    {cols += yyleng;}
@@ -79,7 +85,16 @@ UN_STRING       \"[^\"^\n]*\n
 {STRING}                  {yylval.a=newast("STRING",0,yylineno);  return STRING;}
 {INTEGER}			      {yylval.a=newast("INTEGER",0,yylineno);  return INTEGER;}
 {FLOAT}			      {yylval.a=newast("FLOAT",0,yylineno);  return FLOAT;}
+{READ}                    {yylval.a=newast("READ",0,yylineno); return READ;}
+{LSbracket}               {yylval.a=newast("LSbracket",0,yylineno); return LSbracket;}
+{RSbracket}               {yylval.a=newast("RSbracket",0,yylineno); return RSbracket;}
+{SPOT}                    {yylval.a=newast("SPOT",0,yylineno); return SPOT;}
 {ID}                      {yylval.a=newast("ID",0,yylineno);  return ID;}
+
+"(*"                   {BEGIN COMMENT;}
+<COMMENT>\n            {} 
+<COMMENT>"*)"          {BEGIN INITIAL;}
+<COMMENT>.             {}
 
 %%
 int yywrap()
