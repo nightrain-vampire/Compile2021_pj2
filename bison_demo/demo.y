@@ -10,9 +10,10 @@ struct ast* a;
 double d;
 }
 %token <a> INTEGER FLOAT STRING
-%token <a> PROGRAM IS BEGIN_1 VAR END WRITE SEMI COLON COMMA ASSIGNOP Lbracket Rbracket ID TYPE ADD MINUS STAR DIVISON REAL DO BY ARRAY AND ELSE ELSEIF DIV READ
+%token <a> PROGRAM IS BEGIN_1 VAR END WRITE SEMI COLON COMMA ASSIGNOP Lbracket Rbracket ID TYPE ADD MINUS STAR DIVISON REAL DO BY ARRAY AND ELSE ELSEIF DIV READ FOR TO
 %token <a> LSbracket RSbracket SPOT
 %token <a> EOL
+
 %type <a> body
 %type <a> declaration
 %type <a> var-decl
@@ -27,6 +28,7 @@ double d;
 %type <a> expression
 %type <a> lvalue
 %type <a> lvalue-closure
+%type <a> by_expression
 
 %type <a> root
 
@@ -74,8 +76,12 @@ statement: {$$=newast("statement",0,-1);}
   | WRITE write-params SEMI statement {$$=newast("statement",4,$1,$2,$3,$4);}
   | READ Lbracket lvalue lvalue-closure Rbracket SEMI statement {$$=newast("statement",7,$1,$2,$3,$4,$5,$6,$7);}
   | lvalue ASSIGNOP expression SEMI statement {$$=newast("statement",5,$1,$2,$3,$4,$5);}
+  | FOR ID ASSIGNOP expression TO expression by_expression DO statement END SEMI statement{$$=newast("statement",11,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);}
   ;
 
+by_expression: {$$=newast("by_expression",0,-1);}
+  | BY expression {$$=newast("by_expression",2,$1,$2);}
+  ;
 write-params: Lbracket write-expr write-expr-closure Rbracket {$$=newast("write-params",4,$1,$2,$3,$4);}
   | Lbracket Rbracket {$$=newast("write-params",2,$1,$2);}
   ;

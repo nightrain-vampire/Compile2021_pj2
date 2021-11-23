@@ -21,6 +21,8 @@ BEGIN_1 BEGIN
 END END
 WRITE WRITE 
 READ READ
+FOR FOR
+TO TO
 
 SEMI ;
 COMMA ,
@@ -29,7 +31,7 @@ ASSIGNOP :=
 STAR \*
 DIVISON \/
 ADD \+
-MINUS -
+MINUS \-
 Lbracket \(
 Rbracket \)
 LSbracket \[
@@ -80,6 +82,8 @@ UN_STRING       \"[^\"^\n]*\n
 {ELSEIF}                  {yylval.a=newast("ELSEIF",0,yylineno, cols); cols += yyleng; return ELSEIF;}
 {VAR}                     {yylval.a=newast("VAR",0,yylineno, cols); cols += yyleng; return VAR;}
 {END}                     {yylval.a=newast("END",0,yylineno, cols); cols += yyleng; return END;}
+{FOR}                     {yylval.a=newast("FOR",0,yylineno, cols); cols += yyleng; return FOR;}
+{TO}                      {yylval.a=newast("TO",0,yylineno, cols); cols += yyleng; return TO;}
 {WRITE}                   {yylval.a=newast("WRITE",0,yylineno, cols); cols += yyleng; return WRITE;}
 {READ}                     {yylval.a=newast("READ",0,yylineno, cols); cols += yyleng; return READ;}
 {STRING}                  {yylval.a=newast("STRING",0,yylineno, cols); cols += yyleng; return STRING;}
