@@ -20,6 +20,7 @@ VAR VAR
 BEGIN_1 BEGIN
 END END
 WRITE WRITE 
+READ READ
 
 SEMI ;
 COMMA ,
@@ -31,6 +32,9 @@ ADD \+
 MINUS -
 Lbracket \(
 Rbracket \)
+LSbracket \[
+RSbracket \]
+SPOT \.
 
 INTEGER [1-9]+[0-9]*|0 
 FLOAT   [0-9]+\.[0-9]* 
@@ -46,6 +50,8 @@ STRING          \"[^\"^\n]*\"
 TYPE            (INTEGER)|(REAL)
 ID		        {LETTER}+({LETTER}|{DIGIT})*
 UN_STRING       \"[^\"^\n]*\n
+
+%x COMMENT
 
 %%
 {WS}                    {cols += yyleng;}
@@ -79,6 +85,11 @@ UN_STRING       \"[^\"^\n]*\n
 {INTEGER}			      {yylval.a=newast("INTEGER",0,yylineno, cols); cols += yyleng; return INTEGER;}
 {FLOAT}			      {yylval.a=newast("FLOAT",0,yylineno, cols); cols += yyleng; return FLOAT;}
 {ID}                      {yylval.a=newast("ID",0,yylineno, cols); cols += yyleng; return ID;}
+
+"(*"                   {BEGIN COMMENT;}
+<COMMENT>\n            {} 
+<COMMENT>"*)"          {BEGIN INITIAL;}
+<COMMENT>.             {}
 
 %%
 int yywrap()

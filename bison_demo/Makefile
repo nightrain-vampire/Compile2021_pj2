@@ -1,5 +1,5 @@
 clean:
-			@-rm -f *.o *~ yacc.c yacc.h lex.c demo
+			@-rm -f *.o *~ yacc.c yacc.h lex.c demo.tab.c demo
 .PHONY: clean
 
 GCC = @gcc
@@ -18,4 +18,8 @@ yacc.c: demo.y lex.c
 lex.c: demo.l
 			$(LEX) -o lex.c demo.l
 
-            
+pjtest2:
+	bison -o yacc.c -d demo.y
+	flex -o lex.c demo.l
+	gcc -c yacc.c
+	gcc demo.c yacc.o -o demo

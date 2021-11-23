@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e9697cd5e304830af42faf322553a6c48a2e7e74
 PROGRAM IS
     VAR i, j : INTEGER := 1; 
     VAR x : REAL := 2.0;
@@ -7,6 +10,9 @@ BEGIN
     WRITE ("i = ", i, ", j = ", j);
     WRITE ("x = ", x, ", y = ", y);
 END;
+<<<<<<< HEAD
 =======
 PROGRAM
 >>>>>>> feat: first version gramtree
+=======
+>>>>>>> e9697cd5e304830af42faf322553a6c48a2e7e74
