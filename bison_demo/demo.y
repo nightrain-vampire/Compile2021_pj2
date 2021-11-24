@@ -78,6 +78,7 @@ var-decl: {$$=newast("var-decl",0,-1);}
 
 var-decl2: {$$=newast("var-decl2",0,-1);}
   | COLON TYPENAME {$$=newast("var-decl2",2,$1,$2);}
+  | COLON ID {$$=newast("var-decl2",2,$1,$2);}
   ;
 
 ID-closure: {$$=newast("ID-closure",0,-1);}
@@ -154,6 +155,7 @@ type-decl-closure: {$$=newast("type-decl-closure",0,-1);}
   ;
 
 type: ID {$$=newast("type",1,$1);}
+  | TYPENAME {$$=newast("type",1,$1);}
   | ARRAY OF type {$$=newast("type",3,$1,$2,$3);}
   | RECORD component component-closure END {$$=newast("type",4,$1,$2,$3,$4);}
   ;

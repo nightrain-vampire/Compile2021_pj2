@@ -23,3 +23,16 @@ pjtest2:
 	flex -o lex.c demo.l
 	gcc -c yacc.c
 	gcc demo.c yacc.o -o demo
+
+
+test:
+	./demo tests/case_1.pcat
+	./demo tests/case_2.pcat
+	./demo tests/case_3.pcat
+	./demo tests/case_4.pcat
+	./demo tests/case_5.pcat
+	./demo tests/case_6.pcat
+	./demo tests/case_7.pcat
+	./demo tests/case_8.pcat
+	./demo tests/case_9.pcat
+	./demo tests/case_10.pcat
