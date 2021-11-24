@@ -12,6 +12,8 @@
 
 int yyparse();
 FILE* yyin;
+char* filename;
+FILE* fp = NULL;
 
 int i;
 struct ast *newast(char* name,int num,...)//抽象语法树建立
@@ -61,15 +63,15 @@ void eval(struct ast *a,int level)//先序遍历抽象语法树
     if(a!=NULL)
     {
         for(i=0; i<level; ++i)//孩子结点相对父节点缩进2个空格
-            printf("  ");
+            fprintf(fp,"  ");
         if(a->line!=-1){ //产生空的语法单元不需要打印信息
-            printf("%s ",a->name);//打印语法单元名字，ID/TYPE/INTEGER要打印yytext的值
-            if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))printf(": %s ",a->idtype);
-            else if(!strcmp(a->name,"INTEGER"))printf(": %d",a->intgr);
+            fprintf(fp,"%s ",a->name);//打印语法单元名字，ID/TYPE/INTEGER要打印yytext的值
+            if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))fprintf(fp,": %s ",a->idtype);
+            else if(!strcmp(a->name,"INTEGER"))fprintf(fp,": %d",a->intgr);
             //else
-            printf("(%d, %d)",a->line, a->cols);
+            fprintf(fp,"(%d, %d)",a->line, a->cols);
         }
-        printf("\n");
+        fprintf(fp,"\n");
 
         eval(a->l,level+1);//遍历左子树
         eval(a->r,level);//遍历右子树
@@ -87,6 +89,12 @@ int main(int argc, char* args[])
 {
     if (argc > 1) {
     FILE *file = fopen(args[1], "r");
+    if (argc > 2) {
+        filename = args[2];
+    }else {
+        printf("Please designate the name of the outfile!\n");
+        return 1;
+    }
     if (!file) {
       printf("can not open file");
       return 1;
@@ -95,6 +103,8 @@ int main(int argc, char* args[])
     }
   }
 
+  fp = fopen(filename,"w+");
   yyparse();
+  fclose(fp);
   return 0;
 }

@@ -26,13 +26,13 @@ pjtest2:
 
 
 test:
-	./demo tests/case_1.pcat
-	./demo tests/case_2.pcat
-	./demo tests/case_3.pcat
-	./demo tests/case_4.pcat
-	./demo tests/case_5.pcat
-	./demo tests/case_6.pcat
-	./demo tests/case_7.pcat
-	./demo tests/case_8.pcat
-	./demo tests/case_9.pcat
-	./demo tests/case_10.pcat
+	./demo tests/case_1.pcat ans/res1.txt
+	./demo tests/case_2.pcat ans/res2.txt
+	./demo tests/case_3.pcat ans/res3.txt
+	./demo tests/case_4.pcat ans/res4.txt
+	./demo tests/case_5.pcat ans/res5.txt
+	./demo tests/case_6.pcat ans/res6.txt
+	./demo tests/case_7.pcat ans/res7.txt
+	./demo tests/case_8.pcat ans/res8.txt
+	./demo tests/case_9.pcat ans/res9.txt
+	./demo tests/case_10.pcat ans/res10.txt
