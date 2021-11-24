@@ -45,7 +45,9 @@ struct ast *newast(char* name,int num,...)//抽象语法树建立
     else //num==0为终结符或产生空的语法单元：第1个变长参数表示行号，产生空的语法单元行号为-1。
     {
         int t=va_arg(valist, int); //取第1个变长参数
+        int c=va_arg(valist, int); //取第2个变长参数，列号
         a->line=t;
+        a->cols=c;
         if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))//"ID,TYPE,INTEGER，借助union保存yytext的值
         {char*t;t=(char*)malloc(sizeof(char* )*40);strcpy(t,yytext);a->idtype=t;}
         else if(!strcmp(a->name,"INTEGER")) {a->intgr=atoi(yytext);}
@@ -62,10 +64,10 @@ void eval(struct ast *a,int level)//先序遍历抽象语法树
             printf("  ");
         if(a->line!=-1){ //产生空的语法单元不需要打印信息
             printf("%s ",a->name);//打印语法单元名字，ID/TYPE/INTEGER要打印yytext的值
-            if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))printf(":%s ",a->idtype);
-            else if(!strcmp(a->name,"INTEGER"))printf(":%d",a->intgr);
-            else
-                printf("(%d)",a->line);
+            if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))printf(": %s ",a->idtype);
+            else if(!strcmp(a->name,"INTEGER"))printf(": %d",a->intgr);
+            //else
+            printf("(%d, %d)",a->line, a->cols);
         }
         printf("\n");
 

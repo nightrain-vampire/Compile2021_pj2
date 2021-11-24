@@ -51,6 +51,7 @@ double d;
 %type <a> comp-closure
 %type <a> expression2
 %type <a> statement-closure
+%type <a> by-expression
 
 %type <a> root
 
@@ -105,15 +106,18 @@ statement: {$$=newast("statement",0,-1);}
   | ID actual-params SEMI statement {$$=newast("statement",4,$1,$2,$3,$4);}
   | RETURN expression2 SEMI statement {$$=newast("statement",4,$1,$2,$3,$4);}
   | EXIT SEMI statement {$$=newast("statement",3,$1,$2,$3);}
-  | FOR ID ASSIGNOP expression TO expression expression2 DO statement END SEMI statement {$$=newast("statement",12,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);}
+  | FOR ID ASSIGNOP expression TO expression by-expression DO statement END SEMI statement {$$=newast("statement",12,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);}
   | LOOP statement END SEMI statement {$$=newast("statement",5,$1,$2,$3,$4,$5);}
   | WHILE expression DO statement END SEMI statement {$$=newast("statement",7,$1,$2,$3,$4,$5,$6,$7);}
   | IF expression THEN statement statement-closure expression2 END SEMI statement {$$=newast("statement",9,$1,$2,$3,$4,$5,$6,$7,$8,$9);}
   ;
 
+by-expression: {$$=newast("by expression",0,-1);}
+  | BY expression {$$=newast("by expression",2,$1,$2);}
+  ;
+
 expression2: {$$=newast("expression2",0,-1);}
   | expression {$$=newast("expression2",1,$1);}
-  | BY expression {$$=newast("expression2",2,$1,$2);}
   | ELSE statement {$$=newast("expression2",2,$1,$2);}
   ;
 

@@ -625,10 +625,9 @@ char *yytext;
 #include "yacc.h"
 int tokens_num = 0;
 int cols = 1;
-int rows = 1;
-#line 630 "lex.c"
+#line 629 "lex.c"
 
-#line 632 "lex.c"
+#line 631 "lex.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -846,9 +845,9 @@ YY_DECL
 		}
 
 	{
-#line 84 "demo.l"
+#line 83 "demo.l"
 
-#line 852 "lex.c"
+#line 851 "lex.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -917,332 +916,332 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 85 "demo.l"
+#line 84 "demo.l"
 {cols += yyleng;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 86 "demo.l"
-{}
+#line 85 "demo.l"
+{cols += yyleng;}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 87 "demo.l"
-{}
+#line 86 "demo.l"
+{cols = 1;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 88 "demo.l"
-{yylval.a=newast("TYPENAME",0,yylineno);  return TYPENAME;}
+#line 87 "demo.l"
+{yylval.a=newast("TYPENAME",0,yylineno,cols); cols+=yyleng;  return TYPENAME;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 89 "demo.l"
-{yylval.a=newast("SEMI",0,yylineno);  return SEMI;}
+#line 88 "demo.l"
+{yylval.a=newast("SEMI",0,yylineno,cols); cols+=yyleng;  return SEMI;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 90 "demo.l"
-{yylval.a=newast("COLON",0,yylineno);  return COLON;}
+#line 89 "demo.l"
+{yylval.a=newast("COLON",0,yylineno,cols); cols+=yyleng;  return COLON;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 91 "demo.l"
-{yylval.a=newast("COMMA",0,yylineno);  return COMMA;}
+#line 90 "demo.l"
+{yylval.a=newast("COMMA",0,yylineno,cols); cols+=yyleng;  return COMMA;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 92 "demo.l"
-{yylval.a=newast("ASSIGNOP",0,yylineno);  return ASSIGNOP;}
+#line 91 "demo.l"
+{yylval.a=newast("ASSIGNOP",0,yylineno),cols; cols+=yyleng;  return ASSIGNOP;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 93 "demo.l"
-{yylval.a=newast("Lbracket",0,yylineno);  return Lbracket;}
+#line 92 "demo.l"
+{yylval.a=newast("Lbracket",0,yylineno,cols); cols+=yyleng;  return Lbracket;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 94 "demo.l"
-{yylval.a=newast("Rbracket",0,yylineno);  return Rbracket;}
+#line 93 "demo.l"
+{yylval.a=newast("Rbracket",0,yylineno,cols); cols+=yyleng;  return Rbracket;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 95 "demo.l"
-{yylval.a=newast("ADD",0,yylineno);  return ADD;}
+#line 94 "demo.l"
+{yylval.a=newast("ADD",0,yylineno,cols); cols+=yyleng;  return ADD;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 96 "demo.l"
-{yylval.a=newast("MINUS",0,yylineno);  return MINUS;}
+#line 95 "demo.l"
+{yylval.a=newast("MINUS",0,yylineno,cols); cols+=yyleng;  return MINUS;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 97 "demo.l"
-{yylval.a=newast("STAR",0,yylineno);  return STAR;}
+#line 96 "demo.l"
+{yylval.a=newast("STAR",0,yylineno,cols); cols+=yyleng;  return STAR;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 98 "demo.l"
-{yylval.a=newast("DIVISON",0,yylineno);  return DIVISON;}
+#line 97 "demo.l"
+{yylval.a=newast("DIVISON",0,yylineno,cols); cols+=yyleng;  return DIVISON;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 99 "demo.l"
-{yylval.a=newast("PROGRAM",0,yylineno);  return PROGRAM;}
+#line 98 "demo.l"
+{yylval.a=newast("PROGRAM",0,yylineno,cols); cols+=yyleng;  return PROGRAM;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 100 "demo.l"
-{yylval.a=newast("IS",0,yylineno);  return IS;}
+#line 99 "demo.l"
+{yylval.a=newast("IS",0,yylineno,cols); cols+=yyleng;  return IS;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 101 "demo.l"
-{yylval.a=newast("AND",0,yylineno);  return AND;}
+#line 100 "demo.l"
+{yylval.a=newast("AND",0,yylineno,cols); cols+=yyleng; return AND;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 102 "demo.l"
-{yylval.a=newast("ARRAY",0,yylineno);  return ARRAY;}
+#line 101 "demo.l"
+{yylval.a=newast("ARRAY",0,yylineno,cols); cols+=yyleng;  return ARRAY;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 103 "demo.l"
-{yylval.a=newast("BEGIN_1",0,yylineno);  return BEGIN_1;}
+#line 102 "demo.l"
+{yylval.a=newast("BEGIN_1",0,yylineno,cols); cols+=yyleng;  return BEGIN_1;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 104 "demo.l"
-{yylval.a=newast("BY",0,yylineno);  return BY;}
+#line 103 "demo.l"
+{yylval.a=newast("BY",0,yylineno,cols); cols+=yyleng;  return BY;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 105 "demo.l"
-{yylval.a=newast("DIV",0,yylineno);  return DIV;}
+#line 104 "demo.l"
+{yylval.a=newast("DIV",0,yylineno,cols); cols+=yyleng;  return DIV;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 106 "demo.l"
-{yylval.a=newast("DO",0,yylineno);  return DO;}
+#line 105 "demo.l"
+{yylval.a=newast("DO",0,yylineno,cols); cols+=yyleng;  return DO;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 107 "demo.l"
-{yylval.a=newast("ELSE",0,yylineno);  return ELSE;}
+#line 106 "demo.l"
+{yylval.a=newast("ELSE",0,yylineno,cols); cols+=yyleng;  return ELSE;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 108 "demo.l"
-{yylval.a=newast("ELSEIF",0,yylineno);  return ELSEIF;}
+#line 107 "demo.l"
+{yylval.a=newast("ELSEIF",0,yylineno,cols); cols+=yyleng;  return ELSEIF;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 109 "demo.l"
-{yylval.a=newast("VAR",0,yylineno);  return VAR;}
+#line 108 "demo.l"
+{yylval.a=newast("VAR",0,yylineno,cols); cols+=yyleng;  return VAR;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 110 "demo.l"
-{yylval.a=newast("END",0,yylineno);  return END;}
+#line 109 "demo.l"
+{yylval.a=newast("END",0,yylineno,cols); cols+=yyleng;  return END;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 111 "demo.l"
-{yylval.a=newast("WRITE",0,yylineno);  return WRITE;} 
+#line 110 "demo.l"
+{yylval.a=newast("WRITE",0,yylineno,cols); cols+=yyleng;  return WRITE;} 
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 112 "demo.l"
-{yylval.a=newast("STRING",0,yylineno);  return STRING;}
+#line 111 "demo.l"
+{yylval.a=newast("STRING",0,yylineno,cols); cols+=yyleng;  return STRING;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 113 "demo.l"
-{yylval.a=newast("INTEGER",0,yylineno);  return INTEGER;}
+#line 112 "demo.l"
+{yylval.a=newast("INTEGER",0,yylineno,cols); cols+=yyleng;  return INTEGER;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 114 "demo.l"
-{yylval.a=newast("FLOAT",0,yylineno);  return FLOAT;}
+#line 113 "demo.l"
+{yylval.a=newast("FLOAT",0,yylineno,cols); cols+=yyleng;  return FLOAT;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 115 "demo.l"
-{yylval.a=newast("READ",0,yylineno); return READ;}
+#line 114 "demo.l"
+{yylval.a=newast("READ",0,yylineno,cols); cols+=yyleng; return READ;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 116 "demo.l"
-{yylval.a=newast("LSbracket",0,yylineno); return LSbracket;}
+#line 115 "demo.l"
+{yylval.a=newast("LSbracket",0,yylineno,cols); cols+=yyleng; return LSbracket;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 117 "demo.l"
-{yylval.a=newast("RSbracket",0,yylineno); return RSbracket;}
+#line 116 "demo.l"
+{yylval.a=newast("RSbracket",0,yylineno,cols); cols+=yyleng; return RSbracket;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 118 "demo.l"
-{yylval.a=newast("SPOT",0,yylineno); return SPOT;}
+#line 117 "demo.l"
+{yylval.a=newast("SPOT",0,yylineno,cols); cols+=yyleng; return SPOT;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 119 "demo.l"
-{yylval.a=newast("OF",0,yylineno); return OF;}
+#line 118 "demo.l"
+{yylval.a=newast("OF",0,yylineno,cols); cols+=yyleng; return OF;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 120 "demo.l"
-{yylval.a=newast("RECORD",0,yylineno); return RECORD;}
+#line 119 "demo.l"
+{yylval.a=newast("RECORD",0,yylineno,cols); cols+=yyleng; return RECORD;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 121 "demo.l"
-{yylval.a=newast("PROCEDURE",0,yylineno); return PROCEDURE;}
+#line 120 "demo.l"
+{yylval.a=newast("PROCEDURE",0,yylineno,cols); cols+=yyleng; return PROCEDURE;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 122 "demo.l"
-{yylval.a=newast("TYPE",0,yylineno); return TYPE;}
+#line 121 "demo.l"
+{yylval.a=newast("TYPE",0,yylineno,cols); cols+=yyleng; return TYPE;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 123 "demo.l"
-{yylval.a=newast("NOT",0,yylineno); return NOT;}
+#line 122 "demo.l"
+{yylval.a=newast("NOT",0,yylineno,cols); cols+=yyleng; return NOT;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 124 "demo.l"
-{yylval.a=newast("MOD",0,yylineno); return MOD;}
+#line 123 "demo.l"
+{yylval.a=newast("MOD",0,yylineno,cols); cols+=yyleng; return MOD;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 125 "demo.l"
-{yylval.a=newast("OR",0,yylineno); return OR;}
+#line 124 "demo.l"
+{yylval.a=newast("OR",0,yylineno,cols); cols+=yyleng; return OR;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 126 "demo.l"
-{yylval.a=newast("BIGGER",0,yylineno); return BIGGER;}
+#line 125 "demo.l"
+{yylval.a=newast("BIGGER",0,yylineno,cols); cols+=yyleng; return BIGGER;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 127 "demo.l"
-{yylval.a=newast("SMALLER",0,yylineno); return SMALLER;}
+#line 126 "demo.l"
+{yylval.a=newast("SMALLER",0,yylineno,cols); cols+=yyleng; return SMALLER;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 128 "demo.l"
-{yylval.a=newast("EQUAL",0,yylineno); return EQUAL;}
+#line 127 "demo.l"
+{yylval.a=newast("EQUAL",0,yylineno,cols); cols+=yyleng; return EQUAL;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 129 "demo.l"
-{yylval.a=newast("NSMALLER",0,yylineno); return NSMALLER;}
+#line 128 "demo.l"
+{yylval.a=newast("NSMALLER",0,yylineno,cols); cols+=yyleng; return NSMALLER;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 130 "demo.l"
-{yylval.a=newast("NBIGGER",0,yylineno); return NBIGGER;}
+#line 129 "demo.l"
+{yylval.a=newast("NBIGGER",0,yylineno,cols); cols+=yyleng; return NBIGGER;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 131 "demo.l"
-{yylval.a=newast("SQUARE",0,yylineno); return SQUARE;}
+#line 130 "demo.l"
+{yylval.a=newast("SQUARE",0,yylineno,cols); cols+=yyleng; return SQUARE;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 132 "demo.l"
-{yylval.a=newast("Llimit",0,yylineno); return Llimit;}
+#line 131 "demo.l"
+{yylval.a=newast("Llimit",0,yylineno,cols); cols+=yyleng; return Llimit;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 133 "demo.l"
-{yylval.a=newast("Rlimit",0,yylineno); return Rlimit;}
+#line 132 "demo.l"
+{yylval.a=newast("Rlimit",0,yylineno,cols); cols+=yyleng; return Rlimit;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 134 "demo.l"
-{yylval.a=newast("LHbracket",0,yylineno); return LHbracket;}
+#line 133 "demo.l"
+{yylval.a=newast("LHbracket",0,yylineno,cols); cols+=yyleng; return LHbracket;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 135 "demo.l"
-{yylval.a=newast("RHbracket",0,yylineno); return RHbracket;}
+#line 134 "demo.l"
+{yylval.a=newast("RHbracket",0,yylineno,cols); cols+=yyleng; return RHbracket;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 136 "demo.l"
-{yylval.a=newast("RETURN",0,yylineno); return RETURN;}
+#line 135 "demo.l"
+{yylval.a=newast("RETURN",0,yylineno,cols); cols+=yyleng; return RETURN;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 137 "demo.l"
-{yylval.a=newast("EXIT",0,yylineno); return EXIT;}
+#line 136 "demo.l"
+{yylval.a=newast("EXIT",0,yylineno,cols); cols+=yyleng; return EXIT;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 138 "demo.l"
-{yylval.a=newast("FOR",0,yylineno); return FOR;}
+#line 137 "demo.l"
+{yylval.a=newast("FOR",0,yylineno,cols); cols+=yyleng; return FOR;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 139 "demo.l"
-{yylval.a=newast("LOOP",0,yylineno); return LOOP;}
+#line 138 "demo.l"
+{yylval.a=newast("LOOP",0,yylineno,cols); cols+=yyleng; return LOOP;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 140 "demo.l"
-{yylval.a=newast("WHILE",0,yylineno); return WHILE;}
+#line 139 "demo.l"
+{yylval.a=newast("WHILE",0,yylineno,cols); cols+=yyleng; return WHILE;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 141 "demo.l"
-{yylval.a=newast("IF",0,yylineno); return IF;}
+#line 140 "demo.l"
+{yylval.a=newast("IF",0,yylineno,cols); cols+=yyleng; return IF;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 142 "demo.l"
-{yylval.a=newast("THEN",0,yylineno); return THEN;}
+#line 141 "demo.l"
+{yylval.a=newast("THEN",0,yylineno,cols); cols+=yyleng; return THEN;}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 143 "demo.l"
-{yylval.a=newast("TO",0,yylineno); return TO;}
+#line 142 "demo.l"
+{yylval.a=newast("TO",0,yylineno,cols); cols+=yyleng; return TO;}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 144 "demo.l"
-{yylval.a=newast("ID",0,yylineno);  return ID;}
+#line 143 "demo.l"
+{yylval.a=newast("ID",0,yylineno,cols); cols+=yyleng;  return ID;}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 146 "demo.l"
-{BEGIN COMMENT;}
+#line 145 "demo.l"
+{cols += 2; BEGIN COMMENT;}
 	YY_BREAK
 case 62:
 /* rule 62 can match eol */
 YY_RULE_SETUP
-#line 147 "demo.l"
-{} 
+#line 146 "demo.l"
+{cols = 1;} 
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 148 "demo.l"
-{BEGIN INITIAL;}
+#line 147 "demo.l"
+{cols += 2; BEGIN INITIAL;}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 149 "demo.l"
-{}
+#line 148 "demo.l"
+{cols += yyleng;}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 151 "demo.l"
+#line 150 "demo.l"
 ECHO;
 	YY_BREAK
-#line 1246 "lex.c"
+#line 1245 "lex.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 	yyterminate();
@@ -2260,7 +2259,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 151 "demo.l"
+#line 150 "demo.l"
 
 int yywrap()
 {

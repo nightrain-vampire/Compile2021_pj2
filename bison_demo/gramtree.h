@@ -13,6 +13,7 @@ void yyerror(char *s,...);//错误处理函数
 struct ast
 {
     int line; //行号
+    int cols; //列号
     char* name;//语法单元的名字
     struct ast *l;//左孩子
     struct ast *r;//右孩子
