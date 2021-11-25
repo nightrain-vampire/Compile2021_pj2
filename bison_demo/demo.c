@@ -79,7 +79,13 @@ void yyerror(char*s,...) //变长参数错误处理函数
 {
     va_list ap;
     va_start(ap,s);
-    fprintf(stderr,"%d:error:",yylineno);//错误行号
+    if(!strcmp(s,"syntax error")) 
+    {
+        return;
+    }
+    fprintf(stderr,"%d",yylineno);//错误行号
+    int cols = va_arg(ap, int);
+    fprintf(stderr,",%d:error:",cols);//错误行号
     vfprintf(stderr,s,ap);
     fprintf(stderr,"\n");
 }
