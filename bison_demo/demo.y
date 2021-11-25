@@ -58,7 +58,7 @@ double d;
 
 %%
  root: {$$=newast("root",0,-1);}
-  | PROGRAM IS body SEMI{$$=newast("root",4,$1,$2,$3,$4);printf("打印syntax tree:\n");eval($$,0);printf("syntax tree打印完毕!\n\n");}
+  | PROGRAM IS body SEMI{$$=newast("root",4,$1,$2,$3,$4);evalformat($$,0);}
   ;
 
 body: {$$=newast("body",0,-1);}
@@ -102,7 +102,7 @@ unary-op: ADD | MINUS | NOT {$$=newast("unary-op",1,$1);};
 binary-op: ADD | MINUS | STAR | DIVISON | DIV | MOD | OR | AND | BIGGER | SMALLER | EQUAL | NSMALLER | NBIGGER | SQUARE {$$=newast("binary-op",1,$1);};
 
 statement: {$$=newast("statement",0,-1);}
-  | error WRITE{yyclearin; yyerror("statement error, lack semi or other error",cols); yyerrok;}
+  | error WRITE{yyclearin; yyerror("statement error, lack semi or other error",cols-5); yyerrok;}
   | WRITE write-params SEMI statement {$$=newast("statement",4,$1,$2,$3,$4);}
   | READ Lbracket lvalue lvalue-closure Rbracket SEMI statement {$$=newast("statement",7,$1,$2,$3,$4,$5,$6,$7);}
   | lvalue ASSIGNOP expression SEMI statement {$$=newast("statement",5,$1,$2,$3,$4,$5);}
@@ -172,7 +172,9 @@ procedure-decl-closure: {$$=newast("procedure-decl-closure",0,-1);}
   | procedure-decl procedure-decl-closure {$$=newast("procedure-decl-closure",2,$1,$2);}
   ;
 
-procedure-decl: ID formal-params procedure-decl2 IS body SEMI {$$=newast("procedure-decl",6,$1,$2,$3,$4,$5,$6);};
+procedure-decl: ID formal-params procedure-decl2 IS body SEMI {$$=newast("procedure-decl",6,$1,$2,$3,$4,$5,$6);}
+  | ID formal-params procedure-decl2 PROCEDURE {yyclearin;yyerror("procedure error:, wrong format in declaration",cols-9); yyerrok;}
+  ;
 
 procedure-decl2: {$$=newast("procedure-decl2",0,-1);}
   | COLON type {$$=newast("procedure-decl2",2,$1,$2);}

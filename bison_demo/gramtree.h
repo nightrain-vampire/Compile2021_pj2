@@ -30,3 +30,5 @@ struct ast *newast(char* name,int num,...);
 
 /*遍历抽象语法树，level为树的层数*/
 void eval(struct ast*,int level);
+
+void evalformat(struct ast*, int);

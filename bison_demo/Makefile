@@ -36,3 +36,6 @@ test:
 	./demo tests/case_8.pcat ans/res8.txt
 	./demo tests/case_9.pcat ans/res9.txt
 	./demo tests/case_10.pcat ans/res10.txt
+	./demo tests/case_12.pcat ans/res12.txt
+	./demo tests/case_13.pcat ans/res13.txt
+	./demo tests/case_14.pcat ans/res14.txt

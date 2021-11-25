@@ -61,11 +61,6 @@ struct ast *newast(char* name,int num,...)//抽象语法树建立
 
 void eval(struct ast *a,int level)//先序遍历抽象语法树
 {
-    if (flag == 1) 
-    {
-        // 有错误不输出语法树
-        return ;
-    }
     if(a!=NULL)
     {
         for(i=0; i<level; ++i)//孩子结点相对父节点缩进2个空格
@@ -83,6 +78,16 @@ void eval(struct ast *a,int level)//先序遍历抽象语法树
         eval(a->r,level);//遍历右子树
     }
 }
+
+void evalformat(struct ast *a, int level)
+{
+    if(flag == 0){
+        printf("打印syntax tree:\n");
+        eval(a,level);
+        printf("syntax tree打印完毕!\n\n");
+    }
+}
+
 void yyerror(char*s,...) //变长参数错误处理函数
 {
     flag = 1;
@@ -92,11 +97,11 @@ void yyerror(char*s,...) //变长参数错误处理函数
     {
         return;
     }
-    fprintf(stderr,"%d",yylineno);//错误行号
+    fprintf(fp,"(row: %d, ",yylineno);//错误行号
     int cols = va_arg(ap, int);
-    fprintf(stderr,",%d:error:",cols);//错误行号
-    vfprintf(stderr,s,ap);
-    fprintf(stderr,"\n");
+    fprintf(fp,"col: %d) :error:",cols);//错误列号
+    vfprintf(fp,s,ap);
+    fprintf(fp,"\n");
 }
 int main(int argc, char* args[])
 {
