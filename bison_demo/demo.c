@@ -15,6 +15,7 @@ FILE* yyin;
 char* filename;
 FILE* fp = NULL;
 
+int flag = 0;
 int i;
 struct ast *newast(char* name,int num,...)//抽象语法树建立
 {
@@ -60,6 +61,11 @@ struct ast *newast(char* name,int num,...)//抽象语法树建立
 
 void eval(struct ast *a,int level)//先序遍历抽象语法树
 {
+    if (flag == 1) 
+    {
+        // 有错误不输出语法树
+        return ;
+    }
     if(a!=NULL)
     {
         for(i=0; i<level; ++i)//孩子结点相对父节点缩进2个空格
@@ -79,6 +85,7 @@ void eval(struct ast *a,int level)//先序遍历抽象语法树
 }
 void yyerror(char*s,...) //变长参数错误处理函数
 {
+    flag = 1;
     va_list ap;
     va_start(ap,s);
     if(!strcmp(s,"syntax error")) 

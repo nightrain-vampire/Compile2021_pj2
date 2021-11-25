@@ -102,7 +102,7 @@ unary-op: ADD | MINUS | NOT {$$=newast("unary-op",1,$1);};
 binary-op: ADD | MINUS | STAR | DIVISON | DIV | MOD | OR | AND | BIGGER | SMALLER | EQUAL | NSMALLER | NBIGGER | SQUARE {$$=newast("binary-op",1,$1);};
 
 statement: {$$=newast("statement",0,-1);}
-  | error statement{yyerrok; yyerror("statement error, lack semi or other error",cols);}
+  | error WRITE{yyclearin; yyerror("statement error, lack semi or other error",cols); yyerrok;}
   | WRITE write-params SEMI statement {$$=newast("statement",4,$1,$2,$3,$4);}
   | READ Lbracket lvalue lvalue-closure Rbracket SEMI statement {$$=newast("statement",7,$1,$2,$3,$4,$5,$6,$7);}
   | lvalue ASSIGNOP expression SEMI statement {$$=newast("statement",5,$1,$2,$3,$4,$5);}
