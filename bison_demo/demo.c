@@ -62,10 +62,9 @@ struct ast *newast(char* name,int num,...)//抽象语法树建立
         int c=va_arg(valist, int); //取第2个变长参数，列号
         a->line=t;
         a->cols=c;
-        if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))//"ID,TYPE,INTEGER，借助union保存yytext的值
-        {char*t;t=(char*)malloc(sizeof(char* )*40);strcpy(t,yytext);a->idtype=t;}
-        else if(!strcmp(a->name,"INTEGER")) {a->intgr=atoi(yytext);}
-        else {}
+        if(!strcmp(a->name,"INTEGER")) {a->intgr=atoi(yytext);}
+        else if(!strcmp(a->name,"REAL")) {a->flt=atof(yytext);}
+        else {char*t;t=(char*)malloc(sizeof(char* )*40);strcpy(t,yytext);a->content=t;}
     }
     return a;
 }
@@ -77,11 +76,13 @@ void eval(struct ast *a,int level)//先序遍历抽象语法树
         for(i=0; i<level; ++i)//孩子结点相对父节点缩进2个空格
             fprintf(fp,"  ");
         if(a->line!=-1){ //产生空的语法单元不需要打印信息
-            fprintf(fp,"%s ",a->name);//打印语法单元名字，ID/TYPE/INTEGER要打印yytext的值
-            if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))fprintf(fp,": %s ",a->idtype);
-            else if(!strcmp(a->name,"INTEGER"))fprintf(fp,": %d",a->intgr);
+            fprintf(fp,"%s ",a->name);//打印语法单元名字
+            //if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))fprintf(fp,": %s ",a->idtype);
+            if(!strcmp(a->name,"INTEGER"))fprintf(fp,": %d",a->intgr);
+            else if(!strcmp(a->name,"REAL"))fprintf(fp,": %.1f",a->flt);
+            else fprintf(fp, ": %s",a->content);
             //else
-            fprintf(fp,"(%d, %d)",a->line, a->cols);
+            fprintf(fp,"    (row: %d, col: %d)",a->line, a->cols);
         }
         fprintf(fp,"\n");
 

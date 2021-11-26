@@ -26,7 +26,7 @@ struct ast
     struct ast *r;//右孩子
     union//共用体用来存放ID/TYPE/INTEGER/FLOAT结点的值
     {
-    char* idtype;
+    char* content;
     int intgr;
     float flt;
     };
