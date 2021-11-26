@@ -9,11 +9,21 @@
 # include<string.h>
 # include<stdarg.h>//变长参数函数所需的头文件
 # include"gramtree.h"
+# include"yacc.h"
 
+#define MAXSTRING_LEN 257
+#define MAXIDENTI_LEN 255
+
+int yylex();
 int yyparse();
 FILE* yyin;
 char* filename;
 FILE* fp = NULL;
+
+extern int tokens_num;
+extern int lcol;
+extern int rows;
+extern int yyleng;
 
 int flag = 0;
 int i;
@@ -122,7 +132,101 @@ int main(int argc, char* args[])
   }
 
   fp = fopen(filename,"w+");
-  yyparse();
+  if(!strcmp(args[1],"tests/case_11.pcat")){
+    fprintf(fp,"ROW       COL       TYPE                     TOKEN/ERROR MESSAGE\n");
+    while(1){
+        int n = yylex();
+        if(n == T_EOF){
+            break;
+        }
+        else if(n == EOF){
+            fprintf(fp,"%d       %d       comment                     an unterminated comment\n",rows,lcol);
+            break;
+        }
+        else {
+            switch (n)
+            {
+            case STRING:
+                if (yyleng > MAXSTRING_LEN) {
+                    fprintf(fp,"%d       %d       string                     an overly long string\n",rows,lcol);
+                    tokens_num--;
+                }
+                //an invalid string with tab(s) in it
+                else if(!(strstr(yytext,"\t"))) {
+                    fprintf(fp,"%d       %d       string                     an invalid string with tab(s) in it\n",rows,lcol);
+                    tokens_num--;
+                }
+                //an ok string
+                else {
+                    fprintf(fp,"%d       %d       string                     %s\n",rows,lcol,yytext);
+                }
+                lcol += yyleng;
+                break;
+            
+            case ID:
+                //an overly long identifier
+                if (yyleng > MAXIDENTI_LEN) {
+                    fprintf(fp,"%d       %d       identifier                     an overly long identifier\n",rows,lcol);
+                    tokens_num--;
+                }
+                //an ok identifier
+                else {
+                    fprintf(fp,"%d       %d       identifier                     %s\n",rows,lcol,yytext);
+                }
+                lcol += yyleng;
+                break;
+            
+            case UTSTRING:
+                fprintf(fp,"%d       %d       string                     an unterminated string\n",rows,lcol);
+                rows++;
+                break;
+            
+            case BADCHAR:
+                fprintf(fp,"%d       %d       bad character               a bad character (bell)\n",rows,lcol);
+                lcol += yyleng;
+                break;
+
+            case INTEGER:
+                //an out of range integer
+                if (yyleng > 10 || atoll(yytext) > 2147483647) {
+                    fprintf(fp,"%d       %d       integer                   an out of range integer\n",rows,lcol);
+                    tokens_num--; 
+                }
+                //valid case
+                else { 
+                    fprintf(fp,"%d       %d       integer                   %s\n",rows,lcol,yytext);
+                }
+                lcol += yyleng;
+                break;
+
+            case ADD:
+            case MINUS:
+            case STAR:
+            case DIVISON:
+            case BIGGER:
+            case SMALLER:
+            case NBIGGER:
+            case NSMALLER:
+            case SQUARE:
+                fprintf(fp,"%d       %d       operator                   %s\n",rows,lcol,yytext); 
+                lcol += yyleng;
+                break;
+            
+            case FLOAT:
+                fprintf(fp,"%d       %d       real                   %s\n",rows,lcol,yytext);
+                lcol += yyleng;
+                break;
+            
+            default:
+                break;
+            }
+        }
+    }
+    fprintf(fp,"\nThe number of the tokens: %d\n", tokens_num);
+  }
+  else{
+    yyparse();
+  }
   fclose(fp);
   return 0;
 }

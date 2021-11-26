@@ -39,3 +39,4 @@ test:
 	./demo tests/case_12.pcat ans/res12.txt
 	./demo tests/case_13.pcat ans/res13.txt
 	./demo tests/case_14.pcat ans/res14.txt
+	./demo tests/case_11.pcat ans/res11.txt

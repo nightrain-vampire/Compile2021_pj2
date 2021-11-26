@@ -4,6 +4,8 @@
 #include "yacc.h"
 int tokens_num = 0;
 int cols = 1;
+int rows = 1;
+int lcol = 1;
 %}
 %option yylineno
 
@@ -81,20 +83,20 @@ UN_STRING       \"[^\"^\n]*\n
 %x COMMENT
 
 %%
-{WS}                    {cols += yyleng;}
-{SPACE}                 {cols += yyleng;}
-{EOL}                   {cols = 1;}
+{WS}                    {cols += yyleng; lcol += yyleng; }
+{SPACE}                 {cols += yyleng; lcol += yyleng; }
+{EOL}                   {cols = 1; lcol = 1; rows++; }
 {TYPENAME}              {yylval.a=newast("TYPENAME",0,yylineno,cols); cols+=yyleng;  return TYPENAME;}
 {SEMI}                  {yylval.a=newast("SEMI",0,yylineno,cols); cols+=yyleng;  return SEMI;}
 {COLON}                 {yylval.a=newast("COLON",0,yylineno,cols); cols+=yyleng;  return COLON;}
 {COMMA}                 {yylval.a=newast("COMMA",0,yylineno,cols); cols+=yyleng;  return COMMA;}
-{ASSIGNOP}              {yylval.a=newast("ASSIGNOP",0,yylineno),cols; cols+=yyleng;  return ASSIGNOP;}
+{ASSIGNOP}              {yylval.a=newast("ASSIGNOP",0,yylineno,cols); cols+=yyleng; tokens_num++;  return ASSIGNOP;}
 {Lbracket}                    {yylval.a=newast("Lbracket",0,yylineno,cols); cols+=yyleng;  return Lbracket;}
 {Rbracket}                     {yylval.a=newast("Rbracket",0,yylineno,cols); cols+=yyleng;  return Rbracket;}
-{ADD}                     {yylval.a=newast("ADD",0,yylineno,cols); cols+=yyleng;  return ADD;}
-{MINUS}                   {yylval.a=newast("MINUS",0,yylineno,cols); cols+=yyleng;  return MINUS;}
-{STAR}                     {yylval.a=newast("STAR",0,yylineno,cols); cols+=yyleng;  return STAR;}
-{DIVISON}                     {yylval.a=newast("DIVISON",0,yylineno,cols); cols+=yyleng;  return DIVISON;}
+{ADD}                     {yylval.a=newast("ADD",0,yylineno,cols); cols+=yyleng; tokens_num++;  return ADD;}
+{MINUS}                   {yylval.a=newast("MINUS",0,yylineno,cols); cols+=yyleng; tokens_num++;  return MINUS;}
+{STAR}                     {yylval.a=newast("STAR",0,yylineno,cols); cols+=yyleng; tokens_num++;  return STAR;}
+{DIVISON}                     {yylval.a=newast("DIVISON",0,yylineno,cols); cols+=yyleng; tokens_num++;  return DIVISON;}
 {PROGRAM}                 {yylval.a=newast("PROGRAM",0,yylineno,cols); cols+=yyleng;  return PROGRAM;}
 {IS}                      {yylval.a=newast("IS",0,yylineno,cols); cols+=yyleng;  return IS;}
 {AND}                     {yylval.a=newast("AND",0,yylineno,cols); cols+=yyleng; return AND;}
@@ -108,9 +110,9 @@ UN_STRING       \"[^\"^\n]*\n
 {VAR}                     {yylval.a=newast("VAR",0,yylineno,cols); cols+=yyleng;  return VAR;}
 {END}                     {yylval.a=newast("END",0,yylineno,cols); cols+=yyleng;  return END;}
 {WRITE}                   {yylval.a=newast("WRITE",0,yylineno,cols); cols+=yyleng;  return WRITE;} 
-{STRING}                  {yylval.a=newast("STRING",0,yylineno,cols); cols+=yyleng;  return STRING;}
-{INTEGER}			      {yylval.a=newast("INTEGER",0,yylineno,cols); cols+=yyleng;  return INTEGER;}
-{FLOAT}			      {yylval.a=newast("FLOAT",0,yylineno,cols); cols+=yyleng;  return FLOAT;}
+{STRING}                  {yylval.a=newast("STRING",0,yylineno,cols); cols+=yyleng; tokens_num++;  return STRING;}
+{INTEGER}			      {yylval.a=newast("INTEGER",0,yylineno,cols); cols+=yyleng; tokens_num++; return INTEGER;}
+{FLOAT}			      {yylval.a=newast("FLOAT",0,yylineno,cols); cols+=yyleng; tokens_num++;  return FLOAT;}
 {READ}                    {yylval.a=newast("READ",0,yylineno,cols); cols+=yyleng; return READ;}
 {LSbracket}               {yylval.a=newast("LSbracket",0,yylineno,cols); cols+=yyleng; return LSbracket;}
 {RSbracket}               {yylval.a=newast("RSbracket",0,yylineno,cols); cols+=yyleng; return RSbracket;}
@@ -122,12 +124,12 @@ UN_STRING       \"[^\"^\n]*\n
 {NOT}                     {yylval.a=newast("NOT",0,yylineno,cols); cols+=yyleng; return NOT;}
 {MOD}                     {yylval.a=newast("MOD",0,yylineno,cols); cols+=yyleng; return MOD;}
 {OR}                     {yylval.a=newast("OR",0,yylineno,cols); cols+=yyleng; return OR;}
-{BIGGER}                     {yylval.a=newast("BIGGER",0,yylineno,cols); cols+=yyleng; return BIGGER;}
-{SMALLER}                     {yylval.a=newast("SMALLER",0,yylineno,cols); cols+=yyleng; return SMALLER;}
-{EQUAL}                     {yylval.a=newast("EQUAL",0,yylineno,cols); cols+=yyleng; return EQUAL;}
-{NSMALLER}                     {yylval.a=newast("NSMALLER",0,yylineno,cols); cols+=yyleng; return NSMALLER;}
-{NBIGGER}                     {yylval.a=newast("NBIGGER",0,yylineno,cols); cols+=yyleng; return NBIGGER;}
-{SQUARE}                     {yylval.a=newast("SQUARE",0,yylineno,cols); cols+=yyleng; return SQUARE;}
+{BIGGER}                     {yylval.a=newast("BIGGER",0,yylineno,cols); cols+=yyleng; tokens_num++; return BIGGER;}
+{SMALLER}                     {yylval.a=newast("SMALLER",0,yylineno,cols); cols+=yyleng; tokens_num++; return SMALLER;}
+{EQUAL}                     {yylval.a=newast("EQUAL",0,yylineno,cols); cols+=yyleng; tokens_num++; return EQUAL;}
+{NSMALLER}                     {yylval.a=newast("NSMALLER",0,yylineno,cols); cols+=yyleng; tokens_num++; return NSMALLER;}
+{NBIGGER}                     {yylval.a=newast("NBIGGER",0,yylineno,cols); cols+=yyleng; tokens_num++; return NBIGGER;}
+{SQUARE}                     {yylval.a=newast("SQUARE",0,yylineno,cols); cols+=yyleng; tokens_num++; return SQUARE;}
 {Llimit}                     {yylval.a=newast("Llimit",0,yylineno,cols); cols+=yyleng; return Llimit;}
 {Rlimit}                     {yylval.a=newast("Rlimit",0,yylineno,cols); cols+=yyleng; return Rlimit;}
 {LHbracket}                     {yylval.a=newast("LHbracket",0,yylineno,cols); cols+=yyleng; return LHbracket;}
@@ -140,12 +142,15 @@ UN_STRING       \"[^\"^\n]*\n
 {IF}                     {yylval.a=newast("IF",0,yylineno,cols); cols+=yyleng; return IF;}
 {THEN}                     {yylval.a=newast("THEN",0,yylineno,cols); cols+=yyleng; return THEN;}
 {TO}                     {yylval.a=newast("TO",0,yylineno,cols); cols+=yyleng; return TO;}
-{ID}                      {yylval.a=newast("ID",0,yylineno,cols); cols+=yyleng;  return ID;}
+{ID}                      {yylval.a=newast("ID",0,yylineno,cols); cols+=yyleng; tokens_num++; return ID;}
 
-"(*"                   {cols += 2; BEGIN COMMENT;}
-<COMMENT>\n            {cols = 1;} 
-<COMMENT>"*)"          {cols += 2; BEGIN INITIAL;}
-<COMMENT>.             {cols += yyleng;}
+{UN_STRING}             {lcol = 1; return UTSTRING;}
+.                       {return BADCHAR;}
+
+"(*"                   {cols += 2; lcol += 2; BEGIN COMMENT;}
+<COMMENT>\n            {cols = 1; rows++; lcol = 1;} 
+<COMMENT>"*)"          {cols += 2; lcol += 2; BEGIN INITIAL;}
+<COMMENT>.             {cols += yyleng; lcol += yyleng; }
 
 %%
 int yywrap()
