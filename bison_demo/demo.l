@@ -83,6 +83,7 @@ UN_STRING       \"[^\"^\n]*\n
 %x COMMENT
 
 %%
+<INITIAL><<EOF>>        return T_EOF;
 {WS}                    {cols += yyleng; lcol += yyleng; }
 {SPACE}                 {cols += yyleng; lcol += yyleng; }
 {EOL}                   {cols = 1; lcol = 1; rows++; }
@@ -151,7 +152,7 @@ UN_STRING       \"[^\"^\n]*\n
 <COMMENT>\n            {cols = 1; rows++; lcol = 1;} 
 <COMMENT>"*)"          {cols += 2; lcol += 2; BEGIN INITIAL;}
 <COMMENT>.             {cols += yyleng; lcol += yyleng; }
-
+<COMMENT><<EOF>>       return C_EOF;
 %%
 int yywrap()
 {

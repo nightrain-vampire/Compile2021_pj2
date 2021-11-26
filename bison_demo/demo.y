@@ -16,6 +16,9 @@ double d;
 %token <a> BIGGER SMALLER EQUAL NSMALLER NBIGGER SQUARE Llimit Rlimit LHbracket RHbracket
 %token <a> RETURN EXIT FOR LOOP WHILE IF THEN TO
 %token <a> EOL
+%token <a> T_EOF
+%token <a> C_EOF
+
 %type <a> body
 %type <a> declaration
 %type <a> var-decl

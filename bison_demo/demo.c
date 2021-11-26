@@ -23,6 +23,7 @@ FILE* fp = NULL;
 extern int tokens_num;
 extern int lcol;
 extern int rows;
+extern char *yytext;
 extern int yyleng;
 
 int flag = 0;
@@ -139,7 +140,7 @@ int main(int argc, char* args[])
         if(n == T_EOF){
             break;
         }
-        else if(n == EOF){
+        else if(n == C_EOF){
             fprintf(fp,"%d       %d       comment                     an unterminated comment\n",rows,lcol);
             break;
         }
