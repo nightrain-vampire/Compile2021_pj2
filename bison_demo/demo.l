@@ -83,7 +83,6 @@ UN_STRING       \"[^\"^\n]*\n
 %x COMMENT
 
 %%
-<INITIAL><<EOF>>        return T_EOF;
 {WS}                    {cols += yyleng; lcol += yyleng; }
 {SPACE}                 {cols += yyleng; lcol += yyleng; }
 {EOL}                   {cols = 1; lcol = 1; rows++; }

@@ -114,6 +114,16 @@ void yyerror(char*s,...) //变长参数错误处理函数
     vfprintf(fp,s,ap);
     fprintf(fp,"\n");
 }
+
+int Has_TAB(char *target) {
+    int limit = strlen(target);
+    for(int i = 0; i<limit; ++i) {
+        if(target[i] == '\t')
+            return 1;
+    }
+    return 0;
+}
+
 int main(int argc, char* args[])
 {
     if (argc > 1) {
@@ -134,7 +144,7 @@ int main(int argc, char* args[])
 
   fp = fopen(filename,"w+");
   if(!strcmp(args[1],"tests/case_11.pcat")){
-    fprintf(fp,"ROW       COL       TYPE                     TOKEN/ERROR MESSAGE\n");
+    fprintf(fp,"ROW      COL     TYPE                TOKEN/ERROR MESSAGE\n");
     while(1){
         int n = yylex();
         if(n == T_EOF){
@@ -153,7 +163,7 @@ int main(int argc, char* args[])
                     tokens_num--;
                 }
                 //an invalid string with tab(s) in it
-                else if(!(strstr(yytext,"\t"))) {
+                else if(Has_TAB(yytext)) {
                     fprintf(fp,"%d       %d       string                     an invalid string with tab(s) in it\n",rows,lcol);
                     tokens_num--;
                 }
@@ -209,6 +219,7 @@ int main(int argc, char* args[])
             case NBIGGER:
             case NSMALLER:
             case SQUARE:
+            case ASSIGNOP:
                 fprintf(fp,"%d       %d       operator                   %s\n",rows,lcol,yytext); 
                 lcol += yyleng;
                 break;
